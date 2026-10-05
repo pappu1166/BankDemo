@@ -1,0 +1,52 @@
+<configuration>
+
+    <!-- Console Appender -->
+    <appender name="myconsole" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File Appender - logs will not override and delete 
+    <appender name="myfile" class="ch.qos.logback.core.FileAppender">
+        <file>logs/app.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] - %msg%n</pattern>
+        </encoder>
+    </appender>  -->
+
+ 
+ 
+    <!-- RollingFile Appender for both time and size-based rolling . New logs will generate every 1 min and deleted after 10 mb-->
+    <appender name="myfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/app.log</file> <!-- Current log file location -->
+        
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- Log file naming pattern with time and index -->
+            <fileNamePattern>logs/app-%d{yyyy-MM-dd_HH-mm}.%i.log</fileNamePattern>
+
+            <!-- Keep the logs for 10 days -->
+            <maxHistory>10</maxHistory>
+
+            <!-- Limit the total size of all log files to 10MB -->
+            <totalSizeCap>10MB</totalSizeCap>
+            
+            <!-- Max file size before rolling over -->
+            <maxFileSize>5MB</maxFileSize> <!-- For example, roll after each 5MB -->
+        </rollingPolicy>
+        
+        <encoder>
+            <!-- Log pattern format -->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+
+    <!-- Root logger configuration -->
+    <root level="INFO">
+        <appender-ref ref="myconsole" />
+          <appender-ref ref="myfile" />
+    </root>
+
+</configuration>
